@@ -1,3 +1,8 @@
+/**
+ * name: pc.sv
+ * desc: 32bit program counter
+ */
+
 module program_coutner (
     input   logic           clock,
     input   logic [31:0]    in,
