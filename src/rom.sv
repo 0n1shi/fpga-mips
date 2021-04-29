@@ -4,12 +4,12 @@
  */
 
 module rom (
-    input logic [31:0] address,
-    output logic [31:0] data
+    input   logic [31:0] address,
+    output  logic [31:0] out
 );
     always_comb begin
         case(address)
             // deploy instructions later ...
-            default: data = 31'b0;
+            default: out = 31'b0;
     end
 endmodule
