@@ -3,9 +3,11 @@
  * desc: extend 16bit value into signed 32bit
  */
 
+// i wanna write this with "logic" ...
+
 module sign_extender (
-    input   logic [15:0] in,
-    output  logic [31:0] out
+    input   shortint in,
+    output  int out
 );
-    assign out = {in[15] >>> 7, in};
+    assign out = {in >>> 15, in};
 endmodule
