@@ -1,5 +1,4 @@
 module sign_extender_test;
-
     logic [15:0] in;
     logic [31:0] out;
 
@@ -16,5 +15,4 @@ module sign_extender_test;
         #WAIT;
         in = -128;
     end
-
 endmodule

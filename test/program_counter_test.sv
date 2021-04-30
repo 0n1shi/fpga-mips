@@ -9,5 +9,4 @@ module program_counter_test;
     initial begin
         forever #10 clock = ~clock;
     end
-
 endmodule
