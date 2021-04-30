@@ -3,7 +3,7 @@
  * desc: 32bit ROM
  */
 
-module rom (
+module ROM (
     input   logic [31:0] address,
     output  logic [31:0] out
 );

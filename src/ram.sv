@@ -3,7 +3,7 @@
  * desc: 32bit RAM
  */
 
-module ram (
+module RAM (
     input   logic           clock,
     input   logic           write_enable,
     input   logic [31:0]    address,

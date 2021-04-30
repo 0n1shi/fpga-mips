@@ -3,7 +3,7 @@
  * desc: 32bit program counter
  */
 
-module program_counter (
+module PC (
     input   logic           clock,
     input   logic [31:0]    in,
     output  logic [31:0]    out     = 32'd0
