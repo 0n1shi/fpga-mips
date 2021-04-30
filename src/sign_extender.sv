@@ -6,8 +6,8 @@
 // i wanna write this with "logic" ...
 
 module sign_extender (
-    input   shortint in,
-    output  int out
+    input   logic signed    [15:0] in,
+    output  logic           [31:0] out
 );
     assign out = {in >>> 15, in};
 endmodule
