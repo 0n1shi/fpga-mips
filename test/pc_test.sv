@@ -9,7 +9,7 @@ module program_counter_test;
         .out(current)
     );
 
-    pc_adder pcadd(
+    pc_inc pc_inc(
         .in(current), 
         .out(next)
     );
