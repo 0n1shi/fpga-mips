@@ -13,7 +13,7 @@ module register_file (
 
     output  logic [31:0]    value_out1,   // read 
     output  logic [31:0]    value_out2,   // read
-    input   logic [31:0]    value_in1,    // write
+    input   logic [31:0]    value_in1     // write
 );
     /**
      * # 32 regiters (32 bit each)
@@ -50,10 +50,10 @@ module register_file (
 	 * - FP:   Frame pointer or ninth subroutine variable
 	 * - RA:   Return address for subroutine
      */
-    logic [31:0] registers [31:0];
+    logic [31:0] registers [31:0] = '{default: 'd0};
 
     always_ff @(posedge clock) begin
-        if (write_enable)
+        if (write_enable && selector_in1 != 0)
             registers[selector_in1] <= value_in1;
         value_out1 <= registers[selector_out1];
         value_out2 <= registers[selector_out2];

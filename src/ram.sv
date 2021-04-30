@@ -27,6 +27,5 @@ module RAM (
             memory[address]
         };
     end
-
     
 endmodule
