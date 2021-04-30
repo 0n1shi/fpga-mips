@@ -10,15 +10,7 @@ module RAM (
     input   logic [31:0]    in,
     output  logic [31:0]    out
 );
-    logic [7:0] memory [15:0];
-
-    // How can I initialize content of RAM ... x(
-    // integer i;
-    // initial begin
-    //     for (i=0;i<'hFFFF;i=i+1) begin
-    //         memory[i]='d0;
-    //     end
-    // end
+    logic [7:0] memory [15:0] = '{default:'d0};
 
     always_ff @(posedge clock) begin
         if (write_enable) begin

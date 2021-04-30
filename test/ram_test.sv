@@ -19,22 +19,19 @@ module ram_test;
 
     initial begin
         address = 0;
-        #10;
-
-        address = 4;
-        in = 10;
-        write_enable = 'd1;
-        #20;
-
-        address = 0;
-        in = 20;
+        in = 294967295;
         write_enable = 'd1;
         #20;
 
         address = 4;
-        #10;
-        
+        in = 394967295;
+        write_enable = 'd1;
+        #20;
+
         address = 0;
-        #10;
+        #20;
+
+        address = 4;
+        #20;
     end
 endmodule
