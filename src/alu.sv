@@ -4,7 +4,7 @@
  */
 
 module ALU (
-    input   logic [2:0]     control,
+    input   logic [5:0]     control,
     input   logic [31:0]    src1,
     input   logic [31:0]    src2,
     output  logic           zero        = 0, // zero or not
