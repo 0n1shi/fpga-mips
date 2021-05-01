@@ -1,3 +1,3 @@
 # Architecture
 
-![](./architecture.drawio.png)
+![](./img/architecture.drawio.png)
