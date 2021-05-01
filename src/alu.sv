@@ -7,8 +7,8 @@ module ALU (
     input   logic [11:0]    control,
     input   logic [31:0]    src1,
     input   logic [31:0]    src2,
-    output  logic           zero        = 0, // zero or not
-    output  logic [31:0]    result 
+    output  logic           zero        = 'd0, // zero or not
+    output  logic [31:0]    result      = 'd0 
 );
     always_comb 
         case (control)

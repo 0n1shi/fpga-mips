@@ -11,8 +11,8 @@ module register_file (
     input   logic [4:0] selector_out2,  // read
     input   logic [4:0] selector_in1,   // write
 
-    output  logic [31:0]    value_out1,   // read 
-    output  logic [31:0]    value_out2,   // read
+    output  logic [31:0]    value_out1 = 0,   // read 
+    output  logic [31:0]    value_out2 = 0,   // read
     input   logic [31:0]    value_in1     // write
 );
     /**
