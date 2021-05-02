@@ -13,10 +13,10 @@ module mips (
     logic write_reg;
     logic [11:0] alu_control;
 
-    logic [31:0] reg_value1 = 32'd0;
-    logic [31:0] reg_value2 = 32'd0;
+    logic [31:0] reg_value1 = 0;
+    logic [31:0] reg_value2 = 0;
 
-    logic [31:0] imm;
+    logic [31:0] imm = 0;
 
     logic alu_zero = 0;
     logic [31:0] alu_result = 0;
