@@ -4,11 +4,11 @@
  */
 
 module PC (
-    input   logic           clock,
-    input   logic [31:0]    in,
-    output  logic [31:0]    out     = 32'd0
+    input   logic           clk,
+    input   logic [31:0]    next,
+    output  logic [31:0]    current = 32'd0
 );
-    always_ff @(posedge clock) begin
-        out <= in;
+    always_ff @(posedge clk) begin
+        current <= next;
     end
 endmodule

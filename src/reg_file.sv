@@ -3,17 +3,17 @@
  * desc: group of registers
  */
 
-module register_file (
-    input   logic   clock,
+module reg_file (
+    input   logic   clk,
     input   logic   write_enable_3,
 
-    input   logic [4:0] selector_1,  // read
-    input   logic [4:0] selector_2,  // read
-    input   logic [4:0] selector_3,  // write
+    input   logic [4:0] sel_1,  // read
+    input   logic [4:0] sel_2,  // read
+    input   logic [4:0] sel_3,  // write
 
-    output  logic [31:0]	value_1,	// read 
-    output  logic [31:0]    value_2,	// read
-    input   logic [31:0]    value_3     // write
+    output  logic [31:0]	val_1,	// read 
+    output  logic [31:0]    val_2,	// read
+    input   logic [31:0]    val_3   // write
 );
     /**
      * # 32 regiters (32 bit each)
@@ -50,13 +50,13 @@ module register_file (
 	 * - FP:   Frame pointer or ninth subroutine variable
 	 * - RA:   Return address for subroutine
      */
-    logic [31:0] registers [31:0] = '{default: 'd0};
+    logic [31:0] regs [31:0] = '{default: 'd0};
 
-    always_ff @(posedge clock) begin
-        if (write_enable_3 && selector_3 != 0)
-            registers[selector_3] <= value_3;
+    always_ff @(posedge clk) begin
+        if (write_enable_3 && sel_3 != 0)
+            regs[sel_3] <= val_3;
     end
 
-	assign value_1 = registers[selector_1];
-    assign value_2 = registers[selector_2];
+	assign val_1 = regs[sel_1];
+    assign val_2 = regs[sel_2];
 endmodule

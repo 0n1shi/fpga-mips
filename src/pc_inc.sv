@@ -4,8 +4,8 @@
  */
 
 module pc_inc  (
-    input   logic [31:0] in,
-    output  logic [31:0] out
+    input   logic [31:0] current,
+    output  logic [31:0] next
 );
-    assign out = in + 4;
+    assign next = current + 4;
 endmodule

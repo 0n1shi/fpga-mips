@@ -21,13 +21,28 @@ module mips (
     logic alu_zero = 0;
     logic [31:0] alu_result = 0;
 
-    clock_divider clock_divider(.clock, .clock_pc, .clock_reg, .clock_mem);
+    clock_divider clock_divider(
+        .clock, 
+        .clock_pc, 
+        .clock_reg, 
+        .clock_mem
+    );
 
-    PC PC(.clock(clock_pc), .in(next_pc), .out(pc));
+    PC PC(
+        .clock(clock_pc), 
+        .in(next_pc), 
+        .out(pc)
+    );
 
-    pc_inc pc_inc(.in(pc), .out(next_pc));
+    pc_inc pc_inc(
+        .in(pc), 
+        .out(next_pc)
+    );
 
-    ROM ROM(.address(pc), .data(fetch_data));
+    ROM ROM(
+        .address(pc), 
+        .data(fetch_data)
+    );
 
     decoder decoder(
         .opcode(fetch_data[31:26]), 

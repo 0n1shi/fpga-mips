@@ -4,27 +4,27 @@
  */
 
 module RAM (
-    input   logic           clock,
+    input   logic           clk,
     input   logic           write_enable,
-    input   logic [31:0]    address,
-    input   logic [31:0]    in,
-    output  logic [31:0]    out
+    input   logic [31:0]    addr,
+    input   logic [31:0]    set_val,
+    output  logic [31:0]    val
 );
-    logic [7:0] memory [15:0] = '{default:'d0};
+    logic [7:0] mem [15:0] = '{default:'d0};
 
     always_ff @(posedge clock) begin
         if (write_enable) begin
-            memory[address+3]   <= in[31:24];
-            memory[address+2]   <= in[23:16];
-            memory[address+1]   <= in[15:8];
-            memory[address+0]   <= in[7:0];
+            mem[addr+3]   <= set_value[31:24];
+            mem[addr+2]   <= set_value[23:16];
+            mem[addr+1]   <= set_value[15:8];
+            mem[addr+0]   <= set_value[7:0];
         end
 
-        out <= {
-            memory[address+3],
-            memory[address+2],
-            memory[address+1],
-            memory[address]
+        value <= {
+            mem[addr+3],
+            mem[addr+2],
+            mem[addr+1],
+            mem[addr]
         };
     end
     
