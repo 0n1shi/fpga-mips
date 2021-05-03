@@ -21,6 +21,7 @@ fib:
 build: $(BIN)/fib.o
 	$(LD) -T ./linker.ld -o $(BIN)/fib.elf $^
 	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/fib.elf $(BIN)/fib
+	$(DUMP) -m mips -b binary --endian=little -D $(BIN)/fib | awk 'NR > 7 {printf "%s    // %-6s %-10s\n", $$2,$$3,$$4}' > $(BIN)/fib.rom
 
 elf:
 	$(DUMP) -D $(BIN)/fib.elf
