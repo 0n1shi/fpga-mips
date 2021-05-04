@@ -12,15 +12,15 @@ module RAM (
 );
     logic [7:0] mem [15:0] = '{default:'d0};
 
-    always_ff @(posedge clock) begin
+    always_ff @(posedge clk) begin
         if (write_enable) begin
-            mem[addr+3]   <= set_value[31:24];
-            mem[addr+2]   <= set_value[23:16];
-            mem[addr+1]   <= set_value[15:8];
-            mem[addr+0]   <= set_value[7:0];
+            mem[addr+3]   <= set_val[31:24];
+            mem[addr+2]   <= set_val[23:16];
+            mem[addr+1]   <= set_val[15:8];
+            mem[addr+0]   <= set_val[7:0];
         end
 
-        value <= {
+        val <= {
             mem[addr+3],
             mem[addr+2],
             mem[addr+1],

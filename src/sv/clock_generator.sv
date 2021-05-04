@@ -17,13 +17,12 @@ module clk_gen (
         clk_pc    <= 0;
 
         case (cnt)
-            3'b00: clk_reg    <= 1;
-            3'b01: clk_mem    <= 1;
-            3'b10: clk_reg    <= 1;
-            3'b11: clk_pc     <= 1;
+            3'b00: clk_mem    <= 1;
+            3'b01: clk_reg    <= 1;
+            3'b10: clk_pc     <= 1;
         endcase
 
-        cnt <= cnt + 1;
+        cnt <= cnt == 3'b10 ? 0 : cnt + 1;
     end        
 
 endmodule

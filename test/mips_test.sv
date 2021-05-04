@@ -1,9 +1,9 @@
 module mips_test;
-    logic clock = 1'd0;
+    logic clk = 1'd0;
     
-    mips mips(.clock);
+    mips mips(.clk);
 
     initial begin
-        forever #(10) clock <= ~clock;
+        forever #(10) clk <= ~clk;
     end
 endmodule
