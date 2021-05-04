@@ -2,4 +2,14 @@
 
 |name|desc|implemeneted|
 |-|-|-|
-|addu|rt=rs+imm||
+|addiu|||
+|addu|||
+|bne|||
+|bnez|||
+|j|||
+|jal|||
+|jr|||
+|li|||
+|lw|||
+|move|||
+|sw|||
