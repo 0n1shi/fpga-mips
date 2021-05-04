@@ -16,10 +16,28 @@ module mips (
     logic [31:0] reg_val_1 = 0;
     logic [31:0] reg_val_2 = 0;
 
-    logic [31:0] imm = 0;
-
     logic alu_zero = 0;
-    logic [31:0] alu_result = 0;
+    logic [31:0] alu_result;
+
+    /* type common */
+    logic [5:0] opcode;
+    assign opcode = fetch_val[31:26];
+
+    /* type R */
+    logic [5:0] func;
+    assign func = fetch_val[5:0];
+
+    /* type I */
+    logic [4:0] typeI_rs;
+    assign typeI_rs = fetch_val[25:21];
+    logic [4:0] typeI_rt;
+    assign typeI_rt = fetch_val[20:16];
+    logic [15:0] imm;
+    assign imm = fetch_val[15:0];
+
+    /* type J */
+
+    logic [31:0] signed_imm;
 
     clk_gen clk_gen(.clk, .clk_pc, .clk_reg, .clk_mem);
 
@@ -29,25 +47,20 @@ module mips (
 
     ROM ROM(.addr(pc), .val(fetch_val));
 
-    decoder decoder(
-        .opcode(fetch_val[31:26]), 
-        .func(fetch_val[5:0]), 
-        .write_reg,
-        .alu_ctrl
-    );
+    decoder decoder(.opcode, .func, .write_reg, .alu_ctrl);
 
     reg_file reg_file(
         .clk(clk_reg),
         .write_enable_3(write_reg),
-        .sel_1(fetch_val[25:21]),
-        .sel_2(fetch_val[20:16]),
-        .sel_3(fetch_val[20:16]),
+        .sel_1(typeI_rs),
+        .sel_2(typeI_rt),
+        .sel_3(typeI_rt),
         .val_1(reg_val_1),
         .val_2(reg_val_2),
         .val_3(alu_result)
     );
 
-    sign_ext sign_ext(.org_val(fetch_val[15:0]), .val(imm));
+    sign_ext sign_ext(.org_val(imm), .val(signed_imm));
 
-    ALU ALU(.ctrl(alu_ctrl), .src1(reg_val_1), .src2(imm), .zero(alu_zero), .result(alu_result));
+    ALU ALU(.ctrl(alu_ctrl), .src1(reg_val_1), .src2(signed_imm), .zero(alu_zero), .result(alu_result));
 endmodule

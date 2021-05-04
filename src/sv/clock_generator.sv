@@ -11,7 +11,7 @@ module clk_gen (
 );
     logic [1:0] cnt = 0; // counter for generation of each clocks
 
-    always_ff @(posedge clk) begin 
+    always_ff @(posedge clk) begin
         clk_reg   <= 0;
         clk_mem   <= 0;
         clk_pc    <= 0;
@@ -21,7 +21,7 @@ module clk_gen (
             3'b01: clk_reg    <= 1;
             3'b10: clk_pc     <= 1;
         endcase
-
+        
         cnt <= cnt == 3'b10 ? 0 : cnt + 1;
     end        
 
