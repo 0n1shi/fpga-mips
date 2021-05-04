@@ -10,7 +10,7 @@ module RAM (
     input   logic [31:0]    set_val,
     output  logic [31:0]    val
 );
-    logic [7:0] mem [15:0] = '{default:'d0};
+    logic [7:0] mem [65535:0] = '{default:'d0};
 
     always_ff @(posedge clk) begin
         if (write_enable) begin
@@ -19,13 +19,12 @@ module RAM (
             mem[addr+1]   <= set_val[15:8];
             mem[addr+0]   <= set_val[7:0];
         end
-
-        val <= {
-            mem[addr+3],
-            mem[addr+2],
-            mem[addr+1],
-            mem[addr]
-        };
     end
-    
+
+    assign val = {
+        mem[addr+3],
+        mem[addr+2],
+        mem[addr+1],
+        mem[addr]
+    };
 endmodule

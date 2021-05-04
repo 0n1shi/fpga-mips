@@ -14,12 +14,17 @@ module ALU (
         case (ctrl)
             /* addiu */
             12'b001001000000: begin
-                result = src1 + src2;
-                zero = src1 == src2 ? 1'b1 : 1'b0;
+                zero    = src1 == src2 ? 1'b1 : 1'b0;
+                result  = src1 + src2;
+            end
+            /* sw */
+            12'b101011000000: begin
+                zero    = src1 == src2 ? 1'b1 : 1'b0;
+                result  = src1 + src2;
             end
             default: begin
-                result = 0;
-                zero = 0;
+                zero    = 1'b0;
+                result  = 32'b0;
             end
         endcase
 endmodule

@@ -11,6 +11,7 @@ module mips (
     logic [31:0] fetch_val = 'd0;
 
     logic write_reg;
+    logic write_mem;
     logic [11:0] alu_ctrl;
 
     logic [31:0] reg_val_1 = 0;
@@ -39,15 +40,36 @@ module mips (
 
     logic [31:0] signed_imm;
 
-    clk_gen clk_gen(.clk, .clk_pc, .clk_reg, .clk_mem);
+    clk_gen clk_gen(
+        .clk, 
+        .clk_pc, 
+        .clk_reg, 
+        .clk_mem
+    );
 
-    PC PC(.clk(clk_pc), .next(next_pc), .current(pc));
+    PC PC(
+        .clk(clk_pc), 
+        .next(next_pc), 
+        .current(pc)
+    );
 
-    pc_inc pc_inc(.current(pc), .next(next_pc));
+    pc_inc pc_inc(
+        .current(pc), 
+        .next(next_pc)
+    );
 
-    ROM ROM(.addr(pc), .val(fetch_val));
+    ROM ROM(
+        .addr(pc), 
+        .val(fetch_val)
+    );
 
-    decoder decoder(.opcode, .func, .write_reg, .alu_ctrl);
+    decoder decoder(
+        .opcode,
+        .func,
+        .write_reg,
+        .write_mem,
+        .alu_ctrl
+    );
 
     reg_file reg_file(
         .clk(clk_reg),
@@ -60,7 +82,23 @@ module mips (
         .val_3(alu_result)
     );
 
-    sign_ext sign_ext(.org_val(imm), .val(signed_imm));
+    sign_ext sign_ext(
+        .org_val(imm), 
+        .val(signed_imm)
+    );
 
-    ALU ALU(.ctrl(alu_ctrl), .src1(reg_val_1), .src2(signed_imm), .zero(alu_zero), .result(alu_result));
+    ALU ALU(
+        .ctrl(alu_ctrl), 
+        .src1(reg_val_1), 
+        .src2(signed_imm), 
+        .zero(alu_zero), 
+        .result(alu_result)
+    );
+
+    RAM RAM(
+        .clk(clk_mem), 
+        .write_enable(write_mem), 
+        .addr(alu_result), 
+        .set_val(reg_val_2)
+    );
 endmodule

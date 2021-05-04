@@ -1,6 +1,8 @@
 # Opcodes and functions
 
-## type R
+## Type
+
+### type R
 
 |name|bit|description|
 |-|-|-|
@@ -12,4 +14,34 @@
 |function|5-0|function|
 
 
-### Instructions
+### type I
+
+|name|bit|description|
+|-|-|-|
+|opcode|31-26|opcode|
+|rs|25-21|source register|
+|rt|20-16|target register|
+|imm|15-0|immediate value|
+
+### type J
+
+|name|bit|description|
+|-|-|-|
+|opcode|31-26|opcode|
+|target|25-0|address to jump to|
+
+## Implemented instructions
+
+|name|desc|implemeneted|
+|-|-|-|
+|addiu|||
+|addu|||
+|bne|||
+|bnez|||
+|j|||
+|jal|||
+|jr|||
+|li|||
+|lw|||
+|move|||
+|sw|||
