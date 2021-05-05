@@ -14,6 +14,7 @@ module ALU (
     parameter ctrl_addiu    = 4'b0000;
     parameter ctrl_sw       = 4'b0001;
     parameter ctrl_addu     = 4'b0010;
+    parameter ctrl_jal      = 4'b0011;
     parameter ctrl_invalid  = 4'bxxxx;
 
     always_comb 

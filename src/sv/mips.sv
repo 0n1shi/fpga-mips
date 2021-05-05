@@ -46,6 +46,9 @@ module mips (
     logic [4:0] sa;
     assign sa = fetch_val[10:6];
 
+    logic [25:0] target;
+    assign target = fetch_val[25:0];
+
     // for sign extender
     logic [31:0] signed_imm;
 

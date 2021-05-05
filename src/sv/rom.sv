@@ -14,7 +14,7 @@ module ROM (
             32'h04:     val = 32'hAFBF001C;     //  sw      ra,28(sp)
             32'h08:     val = 32'hAFBE0018;     //  sw      s8,24(sp)
             32'h0C:     val = 32'h03A0F021;     //  move    s8,sp           // (addu)
-            32'h10:     val = 32'h2404000A;     //  li      a0,10
+            32'h10:     val = 32'h2404000A;     //  li      a0,10           // (addiu)
             32'h14:     val = 32'h0C000011;     //  jal     0x44
             32'h18:     val = 32'h00200825;     //  move    at,at
             32'h1C:     val = 32'h00401821;     //  move    v1,v0

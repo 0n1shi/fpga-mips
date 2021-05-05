@@ -11,6 +11,7 @@ module decoder (
     parameter op_type_r = 6'b000000;
     parameter op_addiu  = 6'b001001;
     parameter op_sw     = 6'b101011;
+    parameter op_jal    = 6'b000011;
 
     /* type R functions */
     parameter func_addu = 6'b100001;
@@ -58,6 +59,12 @@ module decoder (
                 use_imm     = 1'b1;
                 alu_ctrl    = ALU.ctrl_sw;
             end
+
+            /* type J */
+            op_jal: begin
+                
+            end
+
             default: begin
                 write_reg   = 1'b0;
                 write_mem   = 1'b0;
