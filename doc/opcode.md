@@ -34,8 +34,8 @@
 
 |name|desc|implemeneted|
 |-|-|-|
-|addiu|||
-|addu|||
+|addiu|rt = rs + imm|done|
+|addu|rd = rs + rt;|done|
 |bne|||
 |bnez|||
 |j|||
@@ -44,4 +44,4 @@
 |li|||
 |lw|||
 |move|||
-|sw|||
+|sw|\*(int\*)(offset+rs) = rt|done|

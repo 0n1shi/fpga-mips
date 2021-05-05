@@ -17,38 +17,38 @@ module reg_file (
 );
     /**
      * # 32 regiters (32 bit each)
-     * - 00) Zero: Always returns 0
-     * - 01) AT:   (assembler temporary) Reserved for use by assembler
-	 * - 02) V0:   Value returned by subroutine
-	 * - 03) V1:   Value returned by subroutine
-	 * - 04) A0:   (arguments) First four parameters for a subroutine
-	 * - 05) A1:   (arguments) First four parameters for a subroutine
-	 * - 06) A2:   (arguments) First four parameters for a subroutine
-	 * - 07) A3:   (arguments) First four parameters for a subroutine
-	 * - 08) T0:   (temporaries) Subroutines can use without saving
-	 * - 09) T1:   (temporaries) Subroutines can use without saving
-	 * - 10) T2:   (temporaries) Subroutines can use without saving
-	 * - 11) T3:   (temporaries) Subroutines can use without saving
-	 * - 12) T4:   (temporaries) Subroutines can use without saving
-	 * - 13) T5:   (temporaries) Subroutines can use without saving
-	 * - 14) T6:   (temporaries) Subroutines can use without saving
-	 * - 15) T7:   (temporaries) Subroutines can use without saving
-	 * - 16) S0:   Subroutine register variables, must be restored before returning
-	 * - 17) S1:   Subroutine register variables, must be restored before returning
-	 * - 18) S2:   Subroutine register variables, must be restored before returning
-	 * - 19) S3:   Subroutine register variables, must be restored before returning
-	 * - 20) S4:   Subroutine register variables, must be restored before returning
-	 * - 21) S5:   Subroutine register variables, must be restored before returning
-	 * - 22) S6:   Subroutine register variables, must be restored before returning
-	 * - 23) S7:   Subroutine register variables, must be restored before returning
-	 * - 24) T8:   (temporaries) Subroutines can use without saving
-	 * - 25) T9:   (temporaries) Subroutines can use without saving
-	 * - 26) K0:   Reserved for use by interrupt/trap handler; may change under your feet
-	 * - 27) K1:   Reserved for use by interrupt/trap handler; may change under your feet
-	 * - 28) GP:   Global pointer; used to access "static" or "extern" variables
-	 * - 29) SP:   Stack pointer
-	 * - 30) FP:   Frame pointer or ninth subroutine variable
-	 * - 31) RA:   Return address for subroutine
+     * - 00) Zero: 		Always returns 0
+     * - 01) AT:   		(assembler temporary) Reserved for use by assembler
+	 * - 02) V0:   		Value returned by subroutine
+	 * - 03) V1:   		Value returned by subroutine
+	 * - 04) A0:   		(arguments) First four parameters for a subroutine
+	 * - 05) A1:   		(arguments) First four parameters for a subroutine
+	 * - 06) A2:   		(arguments) First four parameters for a subroutine
+	 * - 07) A3:   		(arguments) First four parameters for a subroutine
+	 * - 08) T0:   		(temporaries) Subroutines can use without saving
+	 * - 09) T1:   		(temporaries) Subroutines can use without saving
+	 * - 10) T2:   		(temporaries) Subroutines can use without saving
+	 * - 11) T3:   		(temporaries) Subroutines can use without saving
+	 * - 12) T4:   		(temporaries) Subroutines can use without saving
+	 * - 13) T5:   		(temporaries) Subroutines can use without saving
+	 * - 14) T6:   		(temporaries) Subroutines can use without saving
+	 * - 15) T7:   		(temporaries) Subroutines can use without saving
+	 * - 16) S0:   		Subroutine register variables, must be restored before returning
+	 * - 17) S1:   		Subroutine register variables, must be restored before returning
+	 * - 18) S2:   		Subroutine register variables, must be restored before returning
+	 * - 19) S3:   		Subroutine register variables, must be restored before returning
+	 * - 20) S4:   		Subroutine register variables, must be restored before returning
+	 * - 21) S5:   		Subroutine register variables, must be restored before returning
+	 * - 22) S6:   		Subroutine register variables, must be restored before returning
+	 * - 23) S7:   		Subroutine register variables, must be restored before returning
+	 * - 24) T8:   		(temporaries) Subroutines can use without saving
+	 * - 25) T9:   		(temporaries) Subroutines can use without saving
+	 * - 26) K0:   		Reserved for use by interrupt/trap handler; may change under your feet
+	 * - 27) K1:   		Reserved for use by interrupt/trap handler; may change under your feet
+	 * - 28) GP:   		Global pointer; used to access "static" or "extern" variables
+	 * - 29) SP:   		Stack pointer
+	 * - 30) FP(S8):	Frame pointer or ninth subroutine variable
+	 * - 31) RA:   		Return address for subroutine
      */
     logic [31:0] regs [31:0] = {
 		32'h0000,	// 31: RA

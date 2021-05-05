@@ -8,36 +8,45 @@ module mips (
     logic [31:0] pc = 'd0;
     logic [31:0] next_pc;
 
-    logic [31:0] fetch_val = 'd0;
-
+    // for decoder
     logic write_reg;
     logic write_mem;
+    logic use_imm;
+    logic dst_reg;
     logic [11:0] alu_ctrl;
 
     logic [31:0] reg_val_1 = 0;
     logic [31:0] reg_val_2 = 0;
 
+    // for ALU
     logic alu_zero = 0;
     logic [31:0] alu_result;
 
-    /* type common */
+    // for fetch value
+    logic [31:0] fetch_val = 'd0;
+
     logic [5:0] opcode;
     assign opcode = fetch_val[31:26];
-
-    /* type R */
+    
     logic [5:0] func;
     assign func = fetch_val[5:0];
-
-    /* type I */
-    logic [4:0] typeI_rs;
-    assign typeI_rs = fetch_val[25:21];
-    logic [4:0] typeI_rt;
-    assign typeI_rt = fetch_val[20:16];
+    
+    logic [4:0] rs;
+    assign rs = fetch_val[25:21];
+    
+    logic [4:0] rt;
+    assign rt = fetch_val[20:16];
+    
+    logic [4:0] rd;
+    assign rd = fetch_val[15:11];
+    
     logic [15:0] imm;
     assign imm = fetch_val[15:0];
 
-    /* type J */
+    logic [4:0] sa;
+    assign sa = fetch_val[10:6];
 
+    // for sign extender
     logic [31:0] signed_imm;
 
     clk_gen clk_gen(
@@ -68,15 +77,20 @@ module mips (
         .func,
         .write_reg,
         .write_mem,
+        .use_imm,
+        .dst_reg,
         .alu_ctrl
     );
+
+    logic [4:0] sel_3;
+    assign sel_3 = dst_reg == decoder.dst_reg_rd ? rd : rt;
 
     reg_file reg_file(
         .clk(clk_reg),
         .write_enable_3(write_reg),
-        .sel_1(typeI_rs),
-        .sel_2(typeI_rt),
-        .sel_3(typeI_rt),
+        .sel_1(rs),
+        .sel_2(rt),
+        .sel_3,
         .val_1(reg_val_1),
         .val_2(reg_val_2),
         .val_3(alu_result)
@@ -87,10 +101,13 @@ module mips (
         .val(signed_imm)
     );
 
+    logic [31:0] alu_arg2;
+    assign alu_arg2 = use_imm ? signed_imm : reg_val_2;
+
     ALU ALU(
         .ctrl(alu_ctrl), 
-        .src1(reg_val_1), 
-        .src2(signed_imm), 
+        .arg1(reg_val_1), 
+        .arg2(alu_arg2), 
         .zero(alu_zero), 
         .result(alu_result)
     );

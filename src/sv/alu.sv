@@ -4,27 +4,38 @@
  */
 
 module ALU (
-    input   logic [11:0]    ctrl,
-    input   logic [31:0]    src1,
-    input   logic [31:0]    src2,
+    input   logic [3:0]     ctrl,
+    input   logic [31:0]    arg1,
+    input   logic [31:0]    arg2,
     output  logic           zero        = 'd0, // zero or not
     output  logic [31:0]    result      = 32'd0 
 );
+    /* ctrls */
+    parameter ctrl_addiu    = 4'b0000;
+    parameter ctrl_sw       = 4'b0001;
+    parameter ctrl_addu     = 4'b0010;
+    parameter ctrl_invalid  = 4'bxxxx;
+
     always_comb 
         case (ctrl)
             /* addiu */
-            12'b001001000000: begin
-                zero    = src1 == src2 ? 1'b1 : 1'b0;
-                result  = src1 + src2;
+            ctrl_addiu: begin
+                zero    = arg1 == arg2 ? 1'b1 : 1'b0;
+                result  = arg1 + arg2;
             end
             /* sw */
-            12'b101011000000: begin
-                zero    = src1 == src2 ? 1'b1 : 1'b0;
-                result  = src1 + src2;
+            ctrl_sw: begin
+                zero    = arg1 == arg2 ? 1'b1 : 1'b0;
+                result  = arg1 + arg2;
+            end
+            /* addu */
+            ctrl_addu: begin
+                zero    = arg1 == arg2 ? 1'b1 : 1'b0;
+                result  = arg1 + arg2;
             end
             default: begin
-                zero    = 1'b0;
-                result  = 32'b0;
+                zero    = 1'bx;
+                result  = 32'bx;
             end
         endcase
 endmodule
