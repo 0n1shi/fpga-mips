@@ -78,7 +78,7 @@ module decoder (
                 write_mem   = 1'b0;
                 use_imm     = 1'b1;
                 read_ram    = 1'b1;
-                // dst_reg     = dst_reg_rt; doesn't care ...
+                dst_reg     = dst_reg_rt;
                 jal         = 1'b0;
                 alu_ctrl    = ALU.ctrl_lw;
             end

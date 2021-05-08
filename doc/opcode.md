@@ -40,6 +40,7 @@
 |bnez|||
 |j|||
 |jal|r31 = pc; pc = target << 2|done|
+|or|rd = rs \| rt||
 |jr|||
-|lw|rt=\*(int\*)(offset+rs)||
+|lw|rt=\*(int\*)(offset+rs)|done|
 |sw|\*(int\*)(offset+rs) = rt|done|
