@@ -6,14 +6,15 @@ module mips (
     logic clk_mem = 0;
 
     logic [31:0] pc = 'd0;
-    logic [31:0] next_pc;
+    
 
     // for decoder
     logic write_reg;
     logic write_mem;
     logic use_imm;
-    logic dst_reg;
-    logic [11:0] alu_ctrl;
+    logic [1:0] dst_reg;
+    logic jal;
+    logic [3:0] alu_ctrl;
 
     logic [31:0] reg_val_1 = 0;
     logic [31:0] reg_val_2 = 0;
@@ -47,7 +48,10 @@ module mips (
     assign sa = fetch_val[10:6];
 
     logic [25:0] target;
-    assign target = fetch_val[25:0];
+    assign target = fetch_val[25:0] << 2;
+
+    logic [31:0] next_pc;
+    assign next_pc = jal ? target : pc + 4;
 
     // for sign extender
     logic [31:0] signed_imm;
@@ -65,11 +69,6 @@ module mips (
         .current(pc)
     );
 
-    pc_inc pc_inc(
-        .current(pc), 
-        .next(next_pc)
-    );
-
     ROM ROM(
         .addr(pc), 
         .val(fetch_val)
@@ -82,11 +81,12 @@ module mips (
         .write_mem,
         .use_imm,
         .dst_reg,
+        .jal,
         .alu_ctrl
     );
 
     logic [4:0] sel_3;
-    assign sel_3 = dst_reg == decoder.dst_reg_rd ? rd : rt;
+    assign sel_3 = dst_reg == decoder.dst_reg_rd ? rd : (dst_reg == decoder.dst_reg_rt ? rt : 31);
 
     reg_file reg_file(
         .clk(clk_reg),
@@ -96,7 +96,7 @@ module mips (
         .sel_3,
         .val_1(reg_val_1),
         .val_2(reg_val_2),
-        .val_3(alu_result)
+        .val_3(jal ? pc + 4 : alu_result)
     );
 
     sign_ext sign_ext(

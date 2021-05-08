@@ -17,26 +17,28 @@ module ALU (
     parameter ctrl_jal      = 4'b0011;
     parameter ctrl_invalid  = 4'bxxxx;
 
-    always_comb 
+    always_comb begin
+        zero = arg1 == arg2 ? 1'b1 : 1'b0;
         case (ctrl)
             /* addiu */
             ctrl_addiu: begin
-                zero    = arg1 == arg2 ? 1'b1 : 1'b0;
-                result  = arg1 + arg2;
+                result = arg1 + arg2;
             end
             /* sw */
             ctrl_sw: begin
-                zero    = arg1 == arg2 ? 1'b1 : 1'b0;
-                result  = arg1 + arg2;
+                result = arg1 + arg2;
             end
             /* addu */
             ctrl_addu: begin
-                zero    = arg1 == arg2 ? 1'b1 : 1'b0;
-                result  = arg1 + arg2;
+                result = arg1 + arg2;
+            end
+            ctrl_jal: begin
+                // don't need ALU
             end
             default: begin
                 zero    = 1'bx;
                 result  = 32'bx;
             end
         endcase
+    end
 endmodule

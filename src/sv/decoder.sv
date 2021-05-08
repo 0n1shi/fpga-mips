@@ -4,8 +4,9 @@ module decoder (
     output  logic           write_reg   = 'b0,
     output  logic           write_mem   = 'b0,
     output  logic           use_imm     = 'b0,
-    output  logic           dst_reg     = 'b0,
-    output  logic [11:0]    alu_ctrl    = 12'b0
+    output  logic [1:0]     dst_reg     = 2'b0,
+    output  logic           jal         = 'b0,
+    output  logic [3:0]     alu_ctrl    = 4'b0
 );
     /* opcodes */
     parameter op_type_r = 6'b000000;
@@ -17,8 +18,9 @@ module decoder (
     parameter func_addu = 6'b100001;
 
     /* destination register */
-    parameter dst_reg_rt = 'b0;
-    parameter dst_reg_rd = 'b1;
+    parameter dst_reg_rt = 2'b00;
+    parameter dst_reg_rd = 2'b01;
+    parameter dst_reg_ra = 2'b10;
 
     always_comb begin
         case (opcode)
@@ -31,6 +33,7 @@ module decoder (
                         write_mem   = 1'b0;
                         use_imm     = 1'b0;
                         dst_reg     = dst_reg_rd;
+                        jal         = 1'b0;
                         alu_ctrl    = ALU.ctrl_addu;
                     end
                     default: begin
@@ -38,6 +41,7 @@ module decoder (
                         write_mem   = 1'b0;
                         use_imm     = 1'b0;
                         dst_reg     = dst_reg_rt;
+                        jal         = 1'b0;
                         alu_ctrl    = ALU.ctrl_invalid;
                     end
                 endcase
@@ -50,6 +54,7 @@ module decoder (
                 write_mem   = 1'b0;
                 use_imm     = 1'b1;
                 dst_reg     = dst_reg_rt;
+                jal         = 1'b0;
                 alu_ctrl    = ALU.ctrl_addiu;
             end
             // sw rt, imm(rs) => *(int*)(offset+rs) = rt;
@@ -57,18 +62,27 @@ module decoder (
                 write_reg   = 1'b0;
                 write_mem   = 1'b1;
                 use_imm     = 1'b1;
+                // dst_reg     = dst_reg_rt; doesn't care ...
+                jal         = 1'b0;
                 alu_ctrl    = ALU.ctrl_sw;
             end
 
             /* type J */
+            // jal	label => r31 = pc; pc = target << 2
             op_jal: begin
-                
+                write_reg   = 1'b1;
+                write_mem   = 1'b0;
+                use_imm     = 1'b0;
+                dst_reg     = dst_reg_ra;
+                jal         = 1'b1;
+                alu_ctrl    = ALU.ctrl_jal;
             end
 
             default: begin
                 write_reg   = 1'b0;
                 write_mem   = 1'b0;
                 use_imm     = 1'b0;
+                jal         = 1'b0;
                 alu_ctrl    = ALU.ctrl_invalid;
             end
         endcase

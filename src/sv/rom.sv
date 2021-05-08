@@ -31,7 +31,7 @@ module ROM (
             32'h48:     val = 32'hAFBF0024;     //  sw      ra,36(sp)
             32'h4C:     val = 32'hAFBE0020;     //  sw      s8,32(sp)
             32'h50:     val = 32'hAFB0001C;     //  sw      s0,28(sp)
-            32'h54:     val = 32'h03A0F021;     //  move    s8,sp
+            32'h54:     val = 32'h03A0F021;     //  move    s8,sp            // (addu)
             32'h58:     val = 32'hAFC40028;     //  sw      a0,40(s8)
             32'h5C:     val = 32'h8FC20028;     //  lw      v0,40(s8)
             32'h60:     val = 32'h00200825;     //  move    at,at
@@ -41,10 +41,10 @@ module ROM (
             32'h70:     val = 32'h08000033;     //  j       0xcc
             32'h74:     val = 32'h00200825;     //  move    at,at
             32'h78:     val = 32'h8FC30028;     //  lw      v1,40(s8)
-            32'h7C:     val = 32'h24020001;     //  li      v0,1
+            32'h7C:     val = 32'h24020001;     //  li      v0,1            // (addiu)
             32'h80:     val = 32'h14620004;     //  bne     v1,v0,0x94
             32'h84:     val = 32'h00200825;     //  move    at,at
-            32'h88:     val = 32'h24020001;     //  li      v0,1
+            32'h88:     val = 32'h24020001;     //  li      v0,1            // (addiu)
             32'h8C:     val = 32'h08000033;     //  j       0xcc
             32'h90:     val = 32'h00200825;     //  move    at,at
             32'h94:     val = 32'h8FC20028;     //  lw      v0,40(s8)
