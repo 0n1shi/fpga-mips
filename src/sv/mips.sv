@@ -12,6 +12,7 @@ module mips (
     logic write_reg;
     logic write_mem;
     logic use_imm;
+    logic read_ram;
     logic [1:0] dst_reg;
     logic jal;
     logic [3:0] alu_ctrl;
@@ -56,6 +57,9 @@ module mips (
     // for sign extender
     logic [31:0] signed_imm;
 
+    // for RAM
+    logic [31:0] mem_val;
+
     clk_gen clk_gen(
         .clk, 
         .clk_pc, 
@@ -80,6 +84,7 @@ module mips (
         .write_reg,
         .write_mem,
         .use_imm,
+        .read_ram,
         .dst_reg,
         .jal,
         .alu_ctrl
@@ -96,7 +101,7 @@ module mips (
         .sel_3,
         .val_1(reg_val_1),
         .val_2(reg_val_2),
-        .val_3(jal ? pc + 4 : alu_result)
+        .val_3(jal ? pc + 4 : (read_ram ? mem_val : alu_result))
     );
 
     sign_ext sign_ext(
@@ -119,6 +124,7 @@ module mips (
         .clk(clk_mem), 
         .write_enable(write_mem), 
         .addr(alu_result), 
-        .set_val(reg_val_2)
+        .set_val(reg_val_2),
+        .val(mem_val)
     );
 endmodule

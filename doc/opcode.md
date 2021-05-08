@@ -39,9 +39,7 @@
 |bne|||
 |bnez|||
 |j|||
-|jal|||
+|jal|r31 = pc; pc = target << 2|done|
 |jr|||
-|li|||
-|lw|||
-|move|||
+|lw|rt=\*(int\*)(offset+rs)||
 |sw|\*(int\*)(offset+rs) = rt|done|
