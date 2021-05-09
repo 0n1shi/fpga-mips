@@ -38,8 +38,8 @@ module ROM (
             32'h54:     val = 32'h03A0F021;     //  move (addu) s8,sp
             32'h58:     val = 32'hAFC40028;     //  sw          a0,40(s8)
             32'h5C:     val = 32'h8FC20028;     //  lw          v0,40(s8)
-            32'h60:     val = 32'h00200825;     //  move        at,at
-            32'h64:     val = 32'h14400004;     //  bnez        v0,0x78
+            32'h60:     val = 32'h00200825;     //  move (or)   at,at
+            32'h64:     val = 32'h14400004;     //  bnez (bne)  v0,0x78
             32'h68:     val = 32'h00200825;     //  move        at,at
             32'h6C:     val = 32'h00001021;     //  move        v0,zero
             32'h70:     val = 32'h08000033;     //  j           0xcc

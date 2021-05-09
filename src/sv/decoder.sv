@@ -7,6 +7,7 @@ module decoder (
     output  logic           read_ram    = 1'b0,
     output  logic [1:0]     dst_reg     = 2'b0,
     output  logic           jal         = 1'b0,
+    output  logic           branch      = 1'b0, 
     output  logic [3:0]     alu_ctrl    = 4'b0
 );
     /* opcodes */
@@ -15,6 +16,7 @@ module decoder (
     parameter op_sw     = 6'b101011;
     parameter op_jal    = 6'b000011;
     parameter op_lw     = 6'b100011;
+    parameter op_bne    = 6'b000101;
 
     /* type R functions */
     parameter func_addu = 6'b100001;
@@ -38,6 +40,7 @@ module decoder (
                         read_ram    = 1'b0;
                         dst_reg     = dst_reg_rd;
                         jal         = 1'b0;
+                        branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_addu;
                     end
                     // or   rd, rs, rt  => rd = rs | rt
@@ -48,6 +51,7 @@ module decoder (
                         read_ram    = 1'b0;
                         dst_reg     = dst_reg_rd;
                         jal         = 1'b0;
+                        branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_or;
                     end
 
@@ -58,6 +62,7 @@ module decoder (
                         read_ram    = 1'b0;
                         dst_reg     = dst_reg_rt;
                         jal         = 1'b0;
+                        branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_invalid;
                     end
                 endcase
@@ -72,6 +77,7 @@ module decoder (
                 read_ram    = 1'b0;
                 dst_reg     = dst_reg_rt;
                 jal         = 1'b0;
+                branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_addiu;
             end
             // sw   rt, imm(rs) => *(int*)(offset + rs) = rt;
@@ -82,6 +88,7 @@ module decoder (
                 read_ram    = 1'b0;
                 // dst_reg     = dst_reg_rt; doesn't care ...
                 jal         = 1'b0;
+                branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_sw;
             end
             // lw   rt, imm(rs) => rt = *(int*)(offset + rs)
@@ -92,7 +99,18 @@ module decoder (
                 read_ram    = 1'b1;
                 dst_reg     = dst_reg_rt;
                 jal         = 1'b0;
+                branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_lw;
+            end
+            op_bne: begin
+                write_reg   = 1'b0;
+                write_mem   = 1'b0;
+                use_imm     = 1'b0;
+                read_ram    = 1'b0;
+                dst_reg     = dst_reg_rt;
+                jal         = 1'b0;
+                branch      = 1'b1;
+                alu_ctrl    = ALU.ctrl_bne;
             end
 
             /* type J */
@@ -104,6 +122,7 @@ module decoder (
                 read_ram    = 1'b0;
                 dst_reg     = dst_reg_ra;
                 jal         = 1'b1;
+                branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_jal;
             end
 
@@ -113,6 +132,7 @@ module decoder (
                 use_imm     = 1'b0;
                 read_ram    = 1'b0;
                 jal         = 1'b0;
+                branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_invalid;
             end
         endcase

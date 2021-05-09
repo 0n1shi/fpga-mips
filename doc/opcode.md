@@ -36,11 +36,10 @@
 |-|-|-|
 |addiu|rt = rs + imm|done|
 |addu|rd = rs + rt;|done|
-|bne|||
-|bnez|||
+|bne|if (rs != rt) pc += offset * 4|done|
 |j|||
 |jal|r31 = pc; pc = target << 2|done|
-|or|rd = rs \| rt||
+|or|rd = rs \| rt|done|
 |jr|||
 |lw|rt=\*(int\*)(offset+rs)|done|
 |sw|\*(int\*)(offset+rs) = rt|done|

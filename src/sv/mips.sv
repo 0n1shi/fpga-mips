@@ -15,6 +15,7 @@ module mips (
     logic read_ram;
     logic [1:0] dst_reg;
     logic jal;
+    logic branch;
     logic [3:0] alu_ctrl;
 
     logic [31:0] reg_val_1 = 0;
@@ -44,6 +45,8 @@ module mips (
     
     logic [15:0] imm;
     assign imm = fetch_val[15:0];
+    logic [31:0] label;
+    assign label = {14'b0, imm << 2};
 
     logic [4:0] sa;
     assign sa = fetch_val[10:6];
@@ -51,8 +54,11 @@ module mips (
     logic [25:0] target;
     assign target = fetch_val[25:0] << 2;
 
+    logic [31:0] next_addr;
+    assign next_addr = branch && !alu_zero ? pc + 4 + label : pc + 4;
+
     logic [31:0] next_pc;
-    assign next_pc = jal ? target : pc + 4;
+    assign next_pc = jal ? target : next_addr;
 
     // for sign extender
     logic [31:0] signed_imm;
@@ -87,6 +93,7 @@ module mips (
         .read_ram,
         .dst_reg,
         .jal,
+        .branch,
         .alu_ctrl
     );
 
