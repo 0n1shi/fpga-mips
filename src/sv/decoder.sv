@@ -18,6 +18,7 @@ module decoder (
 
     /* type R functions */
     parameter func_addu = 6'b100001;
+    parameter func_or   = 6'b100101;
 
     /* destination register */
     parameter dst_reg_rt = 2'b00;
@@ -39,6 +40,17 @@ module decoder (
                         jal         = 1'b0;
                         alu_ctrl    = ALU.ctrl_addu;
                     end
+                    // or   rd, rs, rt  => rd = rs | rt
+                    func_or: begin
+                        write_reg   = 1'b1;
+                        write_mem   = 1'b0;
+                        use_imm     = 1'b0;
+                        read_ram    = 1'b0;
+                        dst_reg     = dst_reg_rd;
+                        jal         = 1'b0;
+                        alu_ctrl    = ALU.ctrl_or;
+                    end
+
                     default: begin
                         write_reg   = 1'b0;
                         write_mem   = 1'b0;

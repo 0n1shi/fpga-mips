@@ -16,6 +16,7 @@ module ALU (
     parameter ctrl_addu     = 4'b0010;
     parameter ctrl_jal      = 4'b0011;
     parameter ctrl_lw       = 4'b0100;
+    parameter ctrl_or       = 4'b0101;
     parameter ctrl_invalid  = 4'bxxxx;
 
     always_comb begin
@@ -38,6 +39,9 @@ module ALU (
             end
             ctrl_lw: begin
                 result = arg1 + arg2;
+            end
+            ctrl_or: begin
+                result = arg1 | arg2;
             end
             default: begin
                 zero    = 1'bx;
