@@ -37,7 +37,7 @@
 |addiu|rt = rs + imm|done|
 |addu|rd = rs + rt;|done|
 |bne|if (rs != rt) pc += offset * 4|done|
-|j|||
+|j|pc = pc_upper | (target << 2)|done|
 |jal|r31 = pc; pc = target << 2|done|
 |or|rd = rs \| rt|done|
 |jr|||

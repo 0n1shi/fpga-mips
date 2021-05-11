@@ -6,7 +6,7 @@ module decoder (
     output  logic           use_imm     = 1'b0,
     output  logic           read_ram    = 1'b0,
     output  logic [1:0]     dst_reg     = 2'b0,
-    output  logic           jal         = 1'b0,
+    output  logic [1:0]     jmp         = 2'b0,
     output  logic           branch      = 1'b0, 
     output  logic [3:0]     alu_ctrl    = 4'b0
 );
@@ -17,6 +17,7 @@ module decoder (
     parameter op_jal    = 6'b000011;
     parameter op_lw     = 6'b100011;
     parameter op_bne    = 6'b000101;
+    parameter op_j      = 6'b000010;
 
     /* type R functions */
     parameter func_addu = 6'b100001;
@@ -26,6 +27,11 @@ module decoder (
     parameter dst_reg_rt = 2'b00;
     parameter dst_reg_rd = 2'b01;
     parameter dst_reg_ra = 2'b10;
+
+    /* jmp types */
+    parameter jmp_not   = 2'b00;
+    parameter jmp_jal   = 2'b01;
+    parameter jmp_j     = 2'b10;
 
     always_comb begin
         case (opcode)
@@ -39,7 +45,7 @@ module decoder (
                         use_imm     = 1'b0;
                         read_ram    = 1'b0;
                         dst_reg     = dst_reg_rd;
-                        jal         = 1'b0;
+                        jmp         = jmp_not;
                         branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_addu;
                     end
@@ -50,7 +56,7 @@ module decoder (
                         use_imm     = 1'b0;
                         read_ram    = 1'b0;
                         dst_reg     = dst_reg_rd;
-                        jal         = 1'b0;
+                        jmp         = jmp_not;
                         branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_or;
                     end
@@ -61,7 +67,7 @@ module decoder (
                         use_imm     = 1'b0;
                         read_ram    = 1'b0;
                         dst_reg     = dst_reg_rt;
-                        jal         = 1'b0;
+                        jmp         = jmp_not;
                         branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_invalid;
                     end
@@ -76,7 +82,7 @@ module decoder (
                 use_imm     = 1'b1;
                 read_ram    = 1'b0;
                 dst_reg     = dst_reg_rt;
-                jal         = 1'b0;
+                jmp         = jmp_not;
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_addiu;
             end
@@ -87,7 +93,7 @@ module decoder (
                 use_imm     = 1'b1;
                 read_ram    = 1'b0;
                 // dst_reg     = dst_reg_rt; doesn't care ...
-                jal         = 1'b0;
+                jmp         = jmp_not;
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_sw;
             end
@@ -98,7 +104,7 @@ module decoder (
                 use_imm     = 1'b1;
                 read_ram    = 1'b1;
                 dst_reg     = dst_reg_rt;
-                jal         = 1'b0;
+                jmp         = jmp_not;
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_lw;
             end
@@ -108,7 +114,7 @@ module decoder (
                 use_imm     = 1'b0;
                 read_ram    = 1'b0;
                 dst_reg     = dst_reg_rt;
-                jal         = 1'b0;
+                jmp         = jmp_not;
                 branch      = 1'b1;
                 alu_ctrl    = ALU.ctrl_bne;
             end
@@ -121,9 +127,20 @@ module decoder (
                 use_imm     = 1'b0;
                 read_ram    = 1'b0;
                 dst_reg     = dst_reg_ra;
-                jal         = 1'b1;
+                jmp         = jmp_jal;
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_jal;
+            end
+            // j    target  => pc = pc_upper | (target << 2)
+            op_j: begin
+                write_reg   = 1'b0;
+                write_mem   = 1'b0;
+                use_imm     = 1'b0;
+                read_ram    = 1'b0;
+                dst_reg     = dst_reg_ra;
+                jmp         = jmp_j;
+                branch      = 1'b0;
+                alu_ctrl    = ALU.ctrl_j;
             end
 
             default: begin
@@ -131,7 +148,7 @@ module decoder (
                 write_mem   = 1'b0;
                 use_imm     = 1'b0;
                 read_ram    = 1'b0;
-                jal         = 1'b0;
+                jmp         = jmp_not;
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_invalid;
             end

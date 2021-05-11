@@ -14,7 +14,7 @@ module mips (
     logic use_imm;
     logic read_ram;
     logic [1:0] dst_reg;
-    logic jal;
+    logic [1:0] jmp;
     logic branch;
     logic [3:0] alu_ctrl;
 
@@ -58,7 +58,13 @@ module mips (
     assign next_addr = branch && !alu_zero ? pc + 4 + label : pc + 4;
 
     logic [31:0] next_pc;
-    assign next_pc = jal ? target : next_addr;
+    always_comb begin
+        case (jmp)
+            decoder.jmp_not:    next_pc = next_addr;
+            decoder.jmp_jal:    next_pc = target;
+            decoder.jmp_j:      next_pc = (next_addr & 32'hFFFF0000) | target;
+        endcase
+    end
 
     // for sign extender
     logic [31:0] signed_imm;
@@ -92,7 +98,7 @@ module mips (
         .use_imm,
         .read_ram,
         .dst_reg,
-        .jal,
+        .jmp,
         .branch,
         .alu_ctrl
     );
@@ -108,7 +114,7 @@ module mips (
         .sel_3,
         .val_1(reg_val_1),
         .val_2(reg_val_2),
-        .val_3(jal ? pc + 4 : (read_ram ? mem_val : alu_result))
+        .val_3(jmp == decoder.jmp_jal ? pc + 4 : (read_ram ? mem_val : alu_result))
     );
 
     sign_ext sign_ext(
