@@ -40,6 +40,6 @@
 |j|pc = pc_upper | (target << 2)|done|
 |jal|r31 = pc; pc = target << 2|done|
 |or|rd = rs \| rt|done|
-|jr|||
-|lw|rt=\*(int\*)(offset+rs)|done|
-|sw|\*(int\*)(offset+rs) = rt|done|
+|jr|pc = rs||
+|lw|rt = \*(int\*)(offset + rs)|done|
+|sw|\*(int\*)(offset + rs) = rt|done|

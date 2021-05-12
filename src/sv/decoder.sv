@@ -22,6 +22,7 @@ module decoder (
     /* type R functions */
     parameter func_addu = 6'b100001;
     parameter func_or   = 6'b100101;
+    parameter func_jr   = 6'b001000;
 
     /* destination register */
     parameter dst_reg_rt = 2'b00;
@@ -32,6 +33,7 @@ module decoder (
     parameter jmp_not   = 2'b00;
     parameter jmp_jal   = 2'b01;
     parameter jmp_j     = 2'b10;
+    parameter jmp_jr    = 2'b11;
 
     always_comb begin
         case (opcode)
@@ -59,6 +61,17 @@ module decoder (
                         jmp         = jmp_not;
                         branch      = 1'b0;
                         alu_ctrl    = ALU.ctrl_or;
+                    end
+                    // jr   rs  => pc = rs
+                    func_jr: begin
+                        write_reg   = 1'b0;
+                        write_mem   = 1'b0;
+                        use_imm     = 1'b0;
+                        read_ram    = 1'b0;
+                        dst_reg     = dst_reg_rd;
+                        jmp         = jmp_jr;
+                        branch      = 1'b0;
+                        alu_ctrl    = ALU.ctrl_jr;
                     end
 
                     default: begin
@@ -108,6 +121,7 @@ module decoder (
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_lw;
             end
+            // BNE  rs, rt, offset  => if (rs != rt) pc += offset * 4
             op_bne: begin
                 write_reg   = 1'b0;
                 write_mem   = 1'b0;

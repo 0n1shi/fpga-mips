@@ -63,6 +63,7 @@ module mips (
             decoder.jmp_not:    next_pc = next_addr;
             decoder.jmp_jal:    next_pc = target;
             decoder.jmp_j:      next_pc = (next_addr & 32'hFFFF0000) | target;
+            decoder.jmp_jr:     next_pc = reg_val_1;
         endcase
     end
 

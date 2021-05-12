@@ -19,6 +19,7 @@ module ALU (
     parameter ctrl_or       = 4'b0101;
     parameter ctrl_bne      = 4'b0110;
     parameter ctrl_j        = 4'b0111;
+    parameter ctrl_jr       = 4'b1000;
     parameter ctrl_invalid  = 4'bxxxx;
 
     always_comb begin
@@ -49,6 +50,9 @@ module ALU (
                 // don't need ALU
             end
             ctrl_j: begin
+                // don't need ALU
+            end
+            ctrl_jr: begin
                 // don't need ALU
             end
             default: begin
