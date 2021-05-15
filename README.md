@@ -1,10 +1,12 @@
 # MIPS on FPGA
 
-MIPS CPU on Intel FPGA.
+MIPS architecture processor on Intel FPGA for learning.
 
+![](./doc/img/screenshot.png)
 
+*runs on modelsim.
 
-## Arch
+## Logic circuit
 
 ![](./doc/img/architecture.drawio.png)
 
@@ -24,7 +26,9 @@ MIPS CPU on Intel FPGA.
 |lui|rt = imm << 16|
 
 
-## Test
+## Test code
+
+code below calculates a fibonacci number.
 
 ```c
 int fib(int n);
@@ -42,7 +46,7 @@ int fib(int n)
 }
 ```
 
-compile above.
+into assembly
 
 ```asm
 addiu       sp,sp,-32
