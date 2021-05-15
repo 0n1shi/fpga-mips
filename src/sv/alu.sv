@@ -20,6 +20,7 @@ module ALU (
     parameter ctrl_bne      = 4'b0110;
     parameter ctrl_j        = 4'b0111;
     parameter ctrl_jr       = 4'b1000;
+    parameter ctrl_lui      = 4'b1001;
     parameter ctrl_invalid  = 4'bxxxx;
 
     always_comb begin
@@ -55,6 +56,10 @@ module ALU (
             ctrl_jr: begin
                 // don't need ALU
             end
+            ctrl_lui: begin
+                result = arg2 << 16;
+            end
+
             default: begin
                 zero    = 1'bx;
                 result  = 32'bx;

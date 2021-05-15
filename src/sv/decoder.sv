@@ -18,6 +18,7 @@ module decoder (
     parameter op_lw     = 6'b100011;
     parameter op_bne    = 6'b000101;
     parameter op_j      = 6'b000010;
+    parameter op_lui    = 6'b001111;
 
     /* type R functions */
     parameter func_addu = 6'b100001;
@@ -121,7 +122,7 @@ module decoder (
                 branch      = 1'b0;
                 alu_ctrl    = ALU.ctrl_lw;
             end
-            // BNE  rs, rt, offset  => if (rs != rt) pc += offset * 4
+            // bne  rs, rt, offset  => if (rs != rt) pc += offset * 4
             op_bne: begin
                 write_reg   = 1'b0;
                 write_mem   = 1'b0;
@@ -131,6 +132,17 @@ module decoder (
                 jmp         = jmp_not;
                 branch      = 1'b1;
                 alu_ctrl    = ALU.ctrl_bne;
+            end
+            // lui  rt, imm => rt = imm << 16;
+            op_lui: begin
+                write_reg   = 1'b1;
+                write_mem   = 1'b0;
+                use_imm     = 1'b1;
+                read_ram    = 1'b0;
+                dst_reg     = dst_reg_rt;
+                jmp         = jmp_not;
+                branch      = 1'b0;
+                alu_ctrl    = ALU.ctrl_lui;
             end
 
             /* type J */
