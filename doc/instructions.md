@@ -29,17 +29,3 @@
 |-|-|-|
 |opcode|31-26|opcode|
 |target|25-0|address to jump to|
-
-## Implemented instructions
-
-|name|desc|implemeneted|
-|-|-|-|
-|addiu|rt = rs + imm|done|
-|addu|rd = rs + rt;|done|
-|bne|if (rs != rt) pc += offset * 4|done|
-|j|pc = pc_upper | (target << 2)|done|
-|jal|r31 = pc; pc = target << 2|done|
-|or|rd = rs \| rt|done|
-|jr|pc = rs||
-|lw|rt = \*(int\*)(offset + rs)|done|
-|sw|\*(int\*)(offset + rs) = rt|done|

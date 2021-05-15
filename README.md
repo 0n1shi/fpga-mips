@@ -2,23 +2,26 @@
 
 MIPS CPU on Intel FPGA.
 
+
+
 ## Arch
 
 ![](./doc/img/architecture.drawio.png)
 
 ## Implemeneted instructions
 
-|name|desc|implemeneted|
-|-|-|-|
-|addiu|rt = rs + imm|done|
-|addu|rd = rs + rt;|done|
-|bne|if (rs != rt) pc += offset * 4|done|
-|j|pc = pc_upper | (target << 2)|done|
-|jal|r31 = pc; pc = target << 2|done|
-|or|rd = rs \| rt|done|
-|jr|pc = rs||
-|lw|rt = \*(int\*)(offset + rs)|done|
-|sw|\*(int\*)(offset + rs) = rt|done|
+|name|desc|
+|-|-|
+|addiu|rt = rs + imm|
+|addu|rd = rs + rt;|
+|bne|if (rs != rt) pc += offset * 4|
+|j|pc = pc_upper \| (target << 2)|
+|jal|r31 = pc; pc = target << 2|
+|or|rd = rs \| rt|
+|jr|pc = rs|
+|lw|rt = \*(int\*)(offset + rs)|
+|sw|\*(int\*)(offset + rs) = rt|
+|lui|rt = imm << 16|
 
 
 ## Test
