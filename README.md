@@ -112,6 +112,19 @@ move        at,at
 move        at,at
 ```
 
+## Run a simulation via modelsim
+
+- prerequisites
+    - CLI command shell (for Windows)
+    - command `vlog` introduced on your PATH
+    - command `vsim` (for Linux) or `modelsim.exe` (for Windows) introduced on your PATH
+
+```
+$ cd modelsim/mips
+$ make simx  # for Linux
+$ make simw  # for Windows
+```
+
 ## Refs
 
 - [registers](https://opencores.org/projects/plasma/opcodes#compiler-register-usage)
