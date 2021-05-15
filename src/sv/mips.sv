@@ -1,5 +1,8 @@
 module mips (
-    input logic clk
+    input   logic           clk,
+    output  logic [31:0]    debug_ra,
+    output  logic           debug_jr,
+    output  logic [3:0]     debug_alu_ctrl
 );
     logic clk_pc = 0;
     logic clk_reg = 0;
@@ -17,6 +20,8 @@ module mips (
     logic [1:0] jmp;
     logic branch;
     logic [3:0] alu_ctrl;
+
+    assign debug_alu_ctrl = alu_ctrl;
 
     logic [31:0] reg_val_1 = 0;
     logic [31:0] reg_val_2 = 0;
@@ -115,7 +120,8 @@ module mips (
         .sel_3,
         .val_1(reg_val_1),
         .val_2(reg_val_2),
-        .val_3(jmp == decoder.jmp_jal ? pc + 4 : (read_ram ? mem_val : alu_result))
+        .val_3(jmp == decoder.jmp_jal ? pc + 4 : (read_ram ? mem_val : alu_result)),
+        .ra(debug_ra)
     );
 
     sign_ext sign_ext(
@@ -141,4 +147,6 @@ module mips (
         .set_val(reg_val_2),
         .val(mem_val)
     );
+
+    assign debug_jr = alu_ctrl == ALU.ctrl_jr;
 endmodule

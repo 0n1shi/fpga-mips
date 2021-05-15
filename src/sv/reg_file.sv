@@ -13,7 +13,9 @@ module reg_file (
 
     output  logic [31:0]	val_1,	// read 
     output  logic [31:0]    val_2,	// read
-    input   logic [31:0]    val_3   // write
+    input   logic [31:0]    val_3,  // write
+
+	output	logic [31:0]	ra // for debug
 );
     // 32 regiters (32 bit each)
     logic [31:0] regs [31:0] = {
@@ -58,4 +60,6 @@ module reg_file (
 
 	assign val_1 = regs[sel_1];
     assign val_2 = regs[sel_2];
+
+	assign ra = regs[31]; // for debug
 endmodule
